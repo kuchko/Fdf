@@ -1,3 +1,5 @@
+#include "libft.h"
+
 void	ft_doublefree(char **s)
 {
 	int		i;

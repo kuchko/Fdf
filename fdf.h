@@ -29,13 +29,20 @@ typedef struct	s_original_wire
 
 
 
-
+void	ft_show_wire_coordinates(t_wire *w);
 
 
 int		ft_read_to_list(t_list **start, int fd);
 int		ft_valid_symbols(t_list *lst, int y_max);
+
 int		ft_make_valid_wire(t_list *lst, t_wire *w);
+int		ft_wire_write(t_list *lst, t_wire *w);
+int		ft_get_argb(char *c);
 int		ft_wire_malloc(t_wire *w);
 int		ft_get_x_range(t_list *lst);
+
+int		ft_atoi_base_positiv(const char *s, int base);
+void	**ft_double_malloc(size_t size, size_t y, size_t x);
+int		ft_error_print(char *s, int i);
 
 #endif

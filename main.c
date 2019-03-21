@@ -23,10 +23,10 @@ int main(int argc, char **argv)
 
 	ft_printf("map_looks like valid\n");
 
-//	ft_make_valid_wire(start, &wire);
+	ft_make_valid_wire(start, &wire);
 
-
-	ft_printf("%d\n", ft_atoi_base("0xFFFFFF", 16));
+	ft_show_wire_coordinates(&wire);
+	// ft_printf("%d\n", ft_atoi_base_positiv("0000FF", 16));
 	// t_list *tmp;
 
 	// tmp = start;
@@ -42,7 +42,31 @@ int main(int argc, char **argv)
 	return(0);
 }
 
-ft_atoi_base("0xFFFFFF", 16);
+void	ft_show_wire_coordinates(t_wire *w)
+{
+	int i;
+	int j;
+
+	j = -1;
+	while (++j < w->y_range)
+	{
+		i = -1;
+		while (++i < w->x_range)
+			ft_printf("%10d", w->nods[j][i].x);
+		ft_printf("\n");
+		i = -1;
+		while (++i < w->x_range)
+			ft_printf("%10d", w->nods[j][i].y);
+		ft_printf("\n");
+		while (++i < w->x_range)
+			ft_printf("%10d", w->nods[j][i].z);
+		ft_printf("\n");
+		while (++i < w->x_range)
+			ft_printf("%#10X", w->nods[j][i].argb);
+		ft_printf("\n");
+		ft_printf("\n");
+	}
+}
 
 /*
 int deal_key(int key, void *param)

@@ -39,7 +39,7 @@ int ft_valid_symbols(t_list *lst, int y_range)
 	{
 		j = 0;
 		while (((char*)lst->content)[j])
-			if (ft_strchr("-,0x123456789ABCDEF 	", ((char*)lst->content)[j++]) == NULL)
+			if (ft_strchr("-,0x123456789ABCDEFabcdef 	", ((char*)lst->content)[j++]) == NULL)
 				return (0);
 		lst = lst->next;
 		i++;
