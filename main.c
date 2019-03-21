@@ -5,64 +5,44 @@
 
 int main(int argc, char **argv)
 {
-	int	fd;
-	char *l;
-	t_list *start;
-
+	int		fd;
+	t_list	*start;
+	t_wire	wire;
 
 	if (argc == 1 && ft_printf("usage:	fdf map_file\n"))
 		return (0);
-	if (argc > 2 && ft_printf("fdf must hace only one map_file\n"))
+	if (argc > 2 && ft_printf("fdf must have only one map_file\n"))
 		return (0);
-	if ((fd = open(argv[1], O_RDONLY)) == -1 && ft_printf("open map_file error\n"))
+	if ((fd = open(argv[1], O_RDONLY)) == -1 &&
+								ft_printf("open map_file error\n"))
 		return (0);
-	if ((start = ft_get_list(fd)) == NULL)
+	if ((wire.y_range = ft_read_to_list(&start, fd)) == 0)
+		return (0);
+	if(ft_valid_symbols(start, wire.y_range) == 0)
 		return (0);
 
-	t_list *tmp;
+	ft_printf("map_looks like valid\n");
 
-	tmp = start;
-	while (tmp)
-	{
-		ft_printf("%s\n", tmp->content);
-		tmp = tmp->next;
-	}
+//	ft_make_valid_wire(start, &wire);
+
+
+	ft_printf("%d\n", ft_atoi_base("0xFFFFFF", 16));
+	// t_list *tmp;
+
+	// tmp = start;
+
+	// while (tmp)
+	// {
+	// 	ft_printf("%s\n", tmp->content);
+	// 	tmp = tmp->next;
+	// }
 
 	close(fd);
 	system("leaks fdf > leaks.txt");
 	return(0);
 }
 
-
-t_list	*ft_get_list(int fd)
-{
-	t_list	*lst;
-	t_list	*tmp;
-	t_list	*start;
-	char 	*l;
-	int		i;
-
-	i = 0;
-	while (get_next_line(fd, &l) > 0 && ++i)
-	{
-		if (start == NULL)
-		{
-			if ((start = ft_lstnew(l, ft_strlen(l) + 1)) == NULL)
-				return (NULL);
-			lst = start;
-		}
-		else
-		{
-			if ((tmp = ft_lstnew(l, ft_strlen(l) + 1)) == NULL)
-				return (NULL);
-			lst->next = tmp;
-			lst = tmp;
-		}
-		free(l);
-	}
-	start->content_size = i;
-	return (start);
-}
+ft_atoi_base("0xFFFFFF", 16);
 
 /*
 int deal_key(int key, void *param)

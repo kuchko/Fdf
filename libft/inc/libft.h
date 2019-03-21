@@ -90,4 +90,7 @@ int					ft_sqrt(int nb);
 int					ft_count_char(char *s, char c);
 char				*ft_strswapc(char *s, char src, char dst);
 int					ft_str_len_n(const char *s, char c);
+
+void				ft_doublefree(char **s);
+
 #endif

@@ -17,7 +17,7 @@ OBJ_DIR = ./obj/
 CC = gcc
 CC_FLAGS = -Wall #-Wextra -Werror
 
-SOURCES = main.c
+SOURCES = main.c read.c valid.c
 
 OBJECTS = $(addprefix $(OBJ_DIR), $(SOURCES:.c=.o))
 
