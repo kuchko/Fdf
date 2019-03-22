@@ -5,41 +5,50 @@
 
 int main(int argc, char **argv)
 {
-	int		fd;
-	t_list	*start;
 	t_wire	wire;
+	t_list	*start;
 
-	if (argc == 1 && ft_printf("usage:	fdf map_file\n"))
-		return (0);
-	if (argc > 2 && ft_printf("fdf must have only one map_file\n"))
-		return (0);
-	if ((fd = open(argv[1], O_RDONLY)) == -1 &&
-								ft_printf("open map_file error\n"))
-		return (0);
-	if ((wire.y_range = ft_read_to_list(&start, fd)) == 0)
-		return (0);
-	if(ft_valid_symbols(start, wire.y_range) == 0)
-		return (0);
+	start = NULL;
 
-	ft_printf("map_looks like valid\n");
+//	ft_read(&wire, &start, argc, argv);
+	ft_read(&wire, &start, argc, argv);
 
-	ft_make_valid_wire(start, &wire);
 
-	ft_show_wire_coordinates(&wire);
-	// ft_printf("%d\n", ft_atoi_base_positiv("0000FF", 16));
-	// t_list *tmp;
+// 	int		fd;
+// 	t_list	*start;
+// 	t_wire	wire;
 
-	// tmp = start;
+// 	if (argc == 1)// && ft_printf("usage:	fdf map_file\n"))
+// 		ft_error("usage:	fdf map_file\n");
+// 	if (argc > 2)// && ft_printf("fdf must have only one map_file\n"))
+// 		ft_error("fdf must have only one map_file\n");
+// 	if ((fd = open(argv[1], O_DIRECTORY)) > 0)// > 0 && ft_printf("open directory is invalid\n"))
+// 		ft_error("open directory is invalid\n");
+// 	if ((fd = open(argv[1], O_RDONLY)) == -1)// && ft_printf("open map_file error\n"))
+// 		ft_error("open map_file error\n");
+// 	if ((wire.y_range = ft_read_to_list(&start, fd)) == 0)
+// 		ft_error("invalid file content\n");
+// 	if(ft_valid_symbols(start, wire.y_range) == 0)
+// 		ft_error("invalid symbols in file\n");
+// //	ft_printf("map_looks like valid\n");
+// //	ft_show_list(start);
+// 	if (!ft_make_valid_wire(start, &wire))
+// 		ft_error("map error\n");
+// 	ft_show_wire_coordinates(&wire);
 
-	// while (tmp)
-	// {
-	// 	ft_printf("%s\n", tmp->content);
-	// 	tmp = tmp->next;
-	// }
 
-	close(fd);
+
 	system("leaks fdf > leaks.txt");
 	return(0);
+}
+
+void	ft_show_list(t_list *lst)
+{
+	while(lst)
+	{
+		ft_printf("%s\n", lst->content);
+		lst = lst->next;
+	}
 }
 
 void	ft_show_wire_coordinates(t_wire *w)
@@ -58,9 +67,11 @@ void	ft_show_wire_coordinates(t_wire *w)
 		while (++i < w->x_range)
 			ft_printf("%10d", w->nods[j][i].y);
 		ft_printf("\n");
+		i = -1;
 		while (++i < w->x_range)
 			ft_printf("%10d", w->nods[j][i].z);
 		ft_printf("\n");
+		i = -1;
 		while (++i < w->x_range)
 			ft_printf("%#10X", w->nods[j][i].argb);
 		ft_printf("\n");
