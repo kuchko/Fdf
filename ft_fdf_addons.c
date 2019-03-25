@@ -45,5 +45,6 @@ void	**ft_double_malloc(size_t size, size_t y, size_t x)
 void	ft_error(char *s)
 {
 	ft_printf("%s", s);
+	system("leaks fdf > leaks.txt");
 	exit(0);
 }

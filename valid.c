@@ -5,12 +5,14 @@ int	ft_make_valid_wire(t_list *lst, t_wire *w)
 {
 	if ((w->x_range = ft_get_x_range(lst)) == 0)
 		return (0);
-	// if (ft_wire_malloc(w) == 0)
-	// 	return (0);
+	if (w->x_range > 10000)
+		ft_error("map is too big\n");
 	if (!(w->nods = (t_nod**)ft_double_malloc(sizeof(t_nod), w->y_range, w->x_range)))
 		ft_error("double_malloc error\n");
 	if (!(ft_wire_write(lst, w)))
 		return (0);
+	if (ft_get_z_range(w) < 0)
+		ft_error("z_range error\n");
 //		return (ft_error_print("ft_wire_write out = 0\n",0));
 	return (1);
 }
@@ -55,8 +57,13 @@ int ft_get_argb(char *c)
 	if (u > 1)
 		return (-1);
 	l = ft_strchr(c, ',') + 1;
-	if (l[0] != '0' || (!(ft_strchr("Xx", l[1]))) || ft_strlen(l) > 8)
+	if (ft_strchr("xX", l[1]) == NULL || *ft_strchr("xX", l[1]) == '\0')
+		ft_printf("is NULL\n");
+	if (l[0] != '0' || ft_strlen(l) > 8)
+	{
+		ft_printf("invalid color\n");
 		return (-1);
+	}
 	u = ft_atoi_base_positiv(l + 2, 16);
 	return (u);
 }
@@ -77,6 +84,25 @@ int	ft_get_x_range(t_list *lst)
 	return (i);
 }
 
+int		ft_get_z_range(t_wire *w)
+{
+	int y;
+	int x;
+
+	y = -1;
+	w->z_min = 0;
+	w->z_max = 0;
+	while (++y < w->y_range)
+	{
+		x = -1;
+		while (++x < w->x_range)
+		{
+			w->z_min = w->nods[y][x].z < w->z_min ? w->nods[y][x].z : w->z_min;
+			w->z_max = w->nods[y][x].z > w->z_max ? w->nods[y][x].z : w->z_max;
+		}
+	}
+	return (w->z_range = ft_abs(w->z_min) + ft_abs(w->z_max));
+}
 
 // int	ft_wire_malloc(t_wire *w)
 // {

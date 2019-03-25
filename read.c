@@ -1,62 +1,34 @@
 #include "fdf.h"
 
-/*
-void	ft_lstfree(t_list **alst)
-{
-	t_list	*nxt;
-
-	if (*alst == NULL)
-		return ;
-	while (*alst)
-	{
-		ft_printf("free\n");
-		nxt = (*alst)->next;
-		free(*alst);
-		free(&((*alst)->content_size));
-		(*alst) = nxt;
-	}
-}
-*/
 
 void	ft_read(t_wire *wire, t_list **start, int argc, char **argv)
 {
 	int		fd;
 
 	*start = NULL;
-	if (argc == 1)// && ft_printf("usage:	fdf map_file\n"))
+	if (argc == 1)
 		ft_error("usage:	fdf map_file\n");
-	if (argc > 2)// && ft_printf("fdf must have only one map_file\n"))
+	if (argc > 2)
 		ft_error("fdf must have only one map_file\n");
-	if ((fd = open(argv[1], O_DIRECTORY)) > 0)// > 0 && ft_printf("open directory is invalid\n"))
+	if ((fd = open(argv[1], O_DIRECTORY)) > 0)
 		ft_error("open directory is invalid\n");
-	if ((fd = open(argv[1], O_RDONLY)) == -1)// && ft_printf("open map_file error\n"))
+	if ((fd = open(argv[1], O_RDONLY)) == -1)
 		ft_error("open map_file error\n");
 	if ((wire->y_range = ft_read_to_list(start, fd)) == 0)
 		ft_error("invalid file content\n");
-	ft_printf("read done\n");
 	close(fd);
-//	ft_show_list(start);
+	if (wire->y_range > 10000)
+		ft_error("map is too big\n");
 	if(ft_valid_symbols(*start, wire->y_range) == 0)
 		ft_error("invalid symbols in file\n");
 //	ft_printf("map_looks like valid\n");
 //	ft_show_list(start);
 	if (!ft_make_valid_wire(*start, wire))
 		ft_error("map error\n");
-//	ft_lstdel(&start, (free));
-//	ft_lstfree(&start);
-	ft_show_wire_coordinates(wire);
+
+
 }
 
-
-
-// void	ft_freelst(t_list **lst)
-// {
-
-// 	while (*lst)
-// 	{
-// 		free((*lst)->content);
-// 	}
-// }
 
 int	ft_read_to_list(t_list **start, int fd)
 {

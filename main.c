@@ -6,37 +6,17 @@
 int main(int argc, char **argv)
 {
 	t_wire	wire;
+	t_wire	wire_2;
 	t_list	*start;
+	t_fdf	f;
 
-	start = NULL;
 
-//	ft_read(&wire, &start, argc, argv);
 	ft_read(&wire, &start, argc, argv);
-
-
-// 	int		fd;
-// 	t_list	*start;
-// 	t_wire	wire;
-
-// 	if (argc == 1)// && ft_printf("usage:	fdf map_file\n"))
-// 		ft_error("usage:	fdf map_file\n");
-// 	if (argc > 2)// && ft_printf("fdf must have only one map_file\n"))
-// 		ft_error("fdf must have only one map_file\n");
-// 	if ((fd = open(argv[1], O_DIRECTORY)) > 0)// > 0 && ft_printf("open directory is invalid\n"))
-// 		ft_error("open directory is invalid\n");
-// 	if ((fd = open(argv[1], O_RDONLY)) == -1)// && ft_printf("open map_file error\n"))
-// 		ft_error("open map_file error\n");
-// 	if ((wire.y_range = ft_read_to_list(&start, fd)) == 0)
-// 		ft_error("invalid file content\n");
-// 	if(ft_valid_symbols(start, wire.y_range) == 0)
-// 		ft_error("invalid symbols in file\n");
-// //	ft_printf("map_looks like valid\n");
-// //	ft_show_list(start);
-// 	if (!ft_make_valid_wire(start, &wire))
-// 		ft_error("map error\n");
-// 	ft_show_wire_coordinates(&wire);
-
-
+	ft_f_init(&f);
+	ft_fit_wire(&f, &wire);
+	ft_copy_wire(&wire, &wire_2);
+	ft_show_wire_coordinates(&wire_2);
+	ft_draw(&wire_2, &f);
 
 	system("leaks fdf > leaks.txt");
 	return(0);

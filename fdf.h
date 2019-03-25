@@ -23,9 +23,13 @@ typedef struct	s_original_wire
 	t_nod		**nods;
 	int			x_range;
 	int			y_range;
+	int			z_range;
+	int			z_min;
+	int			z_max;
 	int			dx;
 	int			dy;
-	int			dz;
+	int			dz_div;
+	int			dz_mult;
 }				t_wire;
 
 
@@ -42,9 +46,18 @@ int		ft_wire_write(t_list *lst, t_wire *w);
 int		ft_get_argb(char *c);
 // int		ft_wire_malloc(t_wire *w);
 int		ft_get_x_range(t_list *lst);
+int		ft_get_z_range(t_wire *w);
 
 int		ft_atoi_base_positiv(const char *s, int base);
 void	**ft_double_malloc(size_t size, size_t y, size_t x);
+
+int		ft_draw(t_wire *w, t_fdf *f);
+void	ft_putline(t_fdf *f, t_nod n1, t_nod n2);
+void	ft_putwire(t_fdf *f, t_wire *w);
+
+void	ft_f_init(t_fdf *f);
+void	ft_fit_wire(t_fdf *f, t_wire *w);
+int		ft_copy_wire(t_wire *w1, t_wire *w2);
 
 void	ft_error(char *s);
 void	ft_show_list(t_list *lst);
