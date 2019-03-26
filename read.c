@@ -25,8 +25,6 @@ void	ft_read(t_wire *wire, t_list **start, int argc, char **argv)
 //	ft_show_list(start);
 	if (!ft_make_valid_wire(*start, wire))
 		ft_error("map error\n");
-
-
 }
 
 

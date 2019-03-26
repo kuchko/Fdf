@@ -1,13 +1,13 @@
-Process:         fdf [11375]
+Process:         fdf [75260]
 Path:            /Users/okuchko/Desktop/fdf/fdf
-Load Address:    0x100767000
+Load Address:    0x10513d000
 Identifier:      fdf
 Version:         ???
 Code Type:       X86-64
-Parent Process:  zsh [1510]
+Parent Process:  zsh [49914]
 
-Date/Time:       2019-03-25 18:08:20.493 +0200
-Launch Time:     2019-03-25 18:08:20.269 +0200
+Date/Time:       2019-03-26 17:32:37.029 +0200
+Launch Time:     2019-03-26 17:32:36.685 +0200
 OS Version:      Mac OS X 10.13.3 (17D47)
 Report Version:  7
 Analysis Tool:   /Applications/Xcode.app/Contents/Developer/usr/bin/leaks
@@ -15,5 +15,5 @@ Analysis Tool Version:  Xcode 9.2 (9C40b)
 ----
 
 leaks Report Version:  2.0
-Process 11375: 788 nodes malloced for 89 KB
-Process 11375: 0 leaks for 0 total leaked bytes.
+Process 75260: 857 nodes malloced for 103 KB
+Process 75260: 0 leaks for 0 total leaked bytes.

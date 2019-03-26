@@ -7,8 +7,21 @@
 # include "libft.h"
 # include "mlx.h"
 # include <fcntl.h>
+# include <math.h>
 
 # define FD1 0
+
+typedef enum			e_current_wire
+{
+	wire_undef, orig, w_up, w_iso, w_parralel
+}						t_current;
+
+typedef struct	s_fdf_iso
+{
+	double			z;
+	double			x;
+	double			y;
+}				t_iso;
 
 typedef struct	s_fdf_nod
 {
@@ -28,9 +41,33 @@ typedef struct	s_original_wire
 	int			z_max;
 	int			dx;
 	int			dy;
-	int			dz_div;
-	int			dz_mult;
+	// int			dz_div;
+	// int			dz_mult;
+	int			x_bias;
+	int			y_bias;
+	t_iso		angel;
+	/// 	double zoom;   with range!!!!!!
 }				t_wire;
+
+typedef struct	s_fdf
+{
+	void		*mlx_ptr;
+	void		*img_ptr;
+	void		*win_ptr;
+	char		*adr;
+	int			bpp;
+	int			size_line;
+	int			endian;
+	int			win_width;
+	int			win_high;
+	int			img_width;
+	int			img_high;
+	t_current	w_cur;
+	t_wire		w_orig;
+	t_wire		w_up;
+	t_wire		w_iso;
+	t_wire		w_parral;
+}				t_fdf;
 
 
 
@@ -51,13 +88,20 @@ int		ft_get_z_range(t_wire *w);
 int		ft_atoi_base_positiv(const char *s, int base);
 void	**ft_double_malloc(size_t size, size_t y, size_t x);
 
-int		ft_draw(t_wire *w, t_fdf *f);
+int		ft_draw(t_fdf *f);
 void	ft_putline(t_fdf *f, t_nod n1, t_nod n2);
 void	ft_putwire(t_fdf *f, t_wire *w);
 
-void	ft_f_init(t_fdf *f);
+void	ft_fdf_init(t_fdf *f);
+void	ft_copy_params(t_wire *w1, t_wire *w2);
+int		ft_wires_malloc(t_fdf *f);
 void	ft_fit_wire(t_fdf *f, t_wire *w);
-int		ft_copy_wire(t_wire *w1, t_wire *w2);
+void	ft_copy_wire(t_wire *w1, t_wire *w2);
+void	ft_rotate_wire(t_wire *w1, t_wire *w2, t_iso *iso);
+void	ft_move_wire(t_wire *w, int y_m, int x_m);
+void	ft_recount_wire(t_wire *w);
+void	ft_remake_wires(t_fdf	*f);
+
 
 void	ft_error(char *s);
 void	ft_show_list(t_list *lst);

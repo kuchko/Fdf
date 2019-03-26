@@ -5,18 +5,24 @@
 
 int main(int argc, char **argv)
 {
-	t_wire	wire;
-	t_wire	wire_2;
 	t_list	*start;
 	t_fdf	f;
+//	t_iso	iso;
 
 
-	ft_read(&wire, &start, argc, argv);
-	ft_f_init(&f);
-	ft_fit_wire(&f, &wire);
-	ft_copy_wire(&wire, &wire_2);
-	ft_show_wire_coordinates(&wire_2);
-	ft_draw(&wire_2, &f);
+	ft_read(&f.w_orig, &start, argc, argv);
+	ft_fdf_init(&f);
+	//ft_fit_wire(&f, &f.orig);
+	// ft_copy_wire(&wire, &wire_2);
+	ft_show_wire_coordinates(&f.w_orig);
+
+	// iso.x = M_PI_2 * 0.7; //M_PI * 0.25;
+	// iso.y = M_PI_2 * 0.5;
+	// iso.z = M_PI_2 * 0.9;
+
+	// ft_rotate_wire(&wire, &wire_2, &f, &iso);
+	// ft_move_wire(&wire_2, f.img_high /2 , f.img_width / 2);
+	ft_draw(&f);
 
 	system("leaks fdf > leaks.txt");
 	return(0);
