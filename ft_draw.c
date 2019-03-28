@@ -1,131 +1,97 @@
 #include "fdf.h"
 
-int ft_keys(int key, t_fdf *f)
+static int	ft_x(void *param)
 {
-
-	if (key == 53)
-		exit(0);
-	else if (key == 18)
-	{
-		f->img_ptr = mlx_new_image(f->mlx_ptr, f->win_width, f->win_high);
-		ft_putwire(f, &f->w_up);
-	}
-	else if (key == 19)
-	{
-		f->img_ptr = mlx_new_image(f->mlx_ptr, f->win_width, f->win_high);
-		ft_putwire(f, &f->w_iso);
-	}
-	// if (key == 91)
-	// 	ft_axis_plus
-	// 	exit(0);
-//	ft_printf("%d \n", key);
-	return(0);
-}
-
-void	ft_putpixel(t_fdf *f, int x, int y, int color)
-{
-	int *i;
-
-	if (x > -1 && x < f->win_width && y > -1 && y < f->win_high)
-	{
-		i = (int*)f->adr;
-		i[y * f->img_width + x] = color;
-	}
+	(void)param;
+	system("leaks fdf > leaks");
+	exit(0);
+	return (0);
 }
 
 int	ft_draw(t_fdf *f)
 {
-	t_wire	*w;
 
 	f->mlx_ptr = mlx_init();
 	f->win_ptr = mlx_new_window(f->mlx_ptr, f->win_width, f->win_high, "FDF");
 	f->img_ptr = mlx_new_image(f->mlx_ptr, f->win_width, f->win_high);
+
 	f->adr = mlx_get_data_addr(f->img_ptr, &f->bpp, &f->size_line, &f->endian);
+	//ft_re_draw(f);
+	mlx_put_image_to_window(f->mlx_ptr, f->win_ptr, f->img_ptr, 0, 0);
+	mlx_destroy_image(f->mlx_ptr,f->img_ptr);
 
-	w = &f->w_up;
-
-	ft_remake_wires(f);
-	ft_putwire(f, w);
-
-
-
-//	mlx_put_image_to_window(f->mlx_ptr, f->win_ptr, f->img_ptr, 0, 0);
-	mlx_key_hook(f->win_ptr, ft_keys, f);
+	// mlx_key_hook(f->win_ptr, ft_keys, f);
+	mlx_hook(f->win_ptr, 17, 0, ft_x, f);
+	mlx_hook(f->win_ptr, 2, 0, ft_keys, f);
 	mlx_loop(f->mlx_ptr);
 	return (0);
 }
 
-void	ft_putline(t_fdf *f, t_nod n1, t_nod n2)
+
+
+void	ft_re_draw(t_fdf *f)
 {
-	int delta_x;
-	int delta_y;
-	int sign_x;
-	int sign_y;
-	int i;
+	t_wire	*w;
 
-	delta_x = ft_abs(n1.x - n2.x);
-	sign_x = n2.x - n1.x > 0 ? 1 : -1;
-	delta_y = ft_abs(n1.y - n2.y);
-	sign_y = n2.y - n1.y > 0 ? 1 : -1;
-	i = 0;
-	ft_putpixel(f, n1.x, n1.y, n1.argb);
-	if (delta_y == 0 || delta_x >= delta_y)
-		while(++i <= delta_x)
-			ft_putpixel(f, n1.x + sign_x * i, sign_x * i * (n2.y - n1.y)/(n2.x - n1.x) + n1.y, n1.argb);
-	else if (delta_x == 0 || delta_x < delta_y)
-	{
-		i = 0;
-		while(++i <= delta_y)
-			ft_putpixel(f, sign_y * i * (n2.x - n1.x)/(n2.y - n1.y) + n1.x, n1.y + sign_y * i , n1.argb);
-	}
-}
+	f->img_ptr = mlx_new_image(f->mlx_ptr, f->win_width, f->win_high);
 
-void	ft_putwire(t_fdf *f, t_wire *w)
-{
-	int y;
-	int x;
+	w = f->w[f->wire_mod];
+	ft_copy_wire(&f->w_orig, w);
+	if (w->color_mod == 1)
+		ft_color_by_z(w);
+	if (w->color_mod == 2)
+		ft_color_fill(w, 0x7cfc00);
+	// if (f->wire_mod == 2)
+	// 	ft_iso_wire(w);
+	if (w->angle.x != 0.0 || w->angle.y != 0.0 || w->angle.z != 0.0)
+		ft_rotate_wire(w, &w->angle);
+	if (f->wire_mod == 2)
+		ft_iso_wire(w);
+	if (f->wire_mod == 3)
+		ft_perspective_wire(w);
+	ft_move_and_zoom_wire(w);
 
-	ft_putpixel(f, w->nods[0][0].x, w->nods[0][0].y, w->nods[0][0].argb);
-	y = -1;
-	while (++y < w->y_range)
-	{
-		x = -1;
-		while (++x < w->x_range)
-		{
-			if (x + 1 < w->x_range)
-				ft_putline(f, w->nods[y][x], w->nods[y][x + 1]);
-			if (y + 1 < w->y_range)
-				ft_putline(f, w->nods[y][x], w->nods[y + 1][x]);
-		}
-	}
+	ft_putwire(f,w);
 	mlx_put_image_to_window(f->mlx_ptr, f->win_ptr, f->img_ptr, 0, 0);
 	mlx_destroy_image(f->mlx_ptr,f->img_ptr);
 }
 
-/*
-void	ft_putwire(t_fdf *f, t_wire *w)
-{
-	int y;
-	int x;
-
-	ft_putpixel(f, w->nods[0][0].x, w->nods[0][0].y, w->nods[0][0].argb);
-	y = -1;
-	while (++y < w->y_range)
-	{
-		x = -1;
-		while (++x < w->x_range)
-		{
-			if (x + 1 < w->x_range)
-				ft_putline(f, w->nods[y][x], w->nods[y][x + 1]);
-			if (y + 1 < w->y_range)
-				ft_putline(f, w->nods[y][x], w->nods[y + 1][x]);
-		}
-	}
-}
-*/
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// void	ft_remake_wires(t_fdf	*f)
+// {
+// 	ft_copy_wire(&f->w_orig, &f->w_up);
+// 	ft_recount_wire(&f->w_up);
+
+// 	f->w_iso.angle.x = - M_PI_2 * 0;
+// 	f->w_iso.angle.y = - M_PI_2 * 0;
+// 	f->w_iso.angle.z = M_PI_2 * 0;
+// 	ft_rotate_wire(&f->w_orig, &f->w_iso, &f->w_iso.angle);
+// 	ft_recount_wire(&f->w_iso);
+
+// }
 
 
 //	ft_printf("z_arnge = %d\nz_min = %d\nz_max = %d\n", w->z_range, w->z_min, w->z_max);

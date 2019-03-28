@@ -17,7 +17,8 @@ OBJ_DIR = ./obj/
 CC = gcc
 CC_FLAGS = -Wall #-Wextra -Werror
 
-SOURCES = main.c read.c valid.c ft_fdf_addons.c ft_draw.c ft_fdf_init.c
+SOURCES = main.c read.c valid.c ft_fdf_addons.c ft_draw.c ft_fdf_init.c \
+		ft_w_modify.c ft_puts.c ft_keys.c
 
 OBJECTS = $(addprefix $(OBJ_DIR), $(SOURCES:.c=.o))
 
