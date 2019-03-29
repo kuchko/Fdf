@@ -18,9 +18,9 @@ static void ft_iso_change(int key, t_wire *w)
 
 static void	ft_zoom_change(int key, t_wire *w)
 {
-	if (key == 78 && w->zoom > 0.1)
-		w->zoom -= 0.2;
-//		w->zoom *= 0.9;
+	if (key == 78 && w->zoom >= 0.1)
+		w->zoom -= 0.1;
+//		w->zoom *= 0.95;
 	else if (key == 69 && w->zoom < 10.0)
 //		w->zoom *= 1.1;
 		w->zoom += 0.1;

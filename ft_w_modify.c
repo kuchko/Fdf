@@ -52,12 +52,46 @@ void	ft_move_and_zoom_wire(t_wire *w)
 		x = -1;
 		while (++x < w->x_range)
 		{
-			w->nods[y][x].x = w->nods[y][x].x * w->zoom + w->x_bias;
-			w->nods[y][x].y = w->nods[y][x].y * w->zoom + w->y_bias;
+			w->nods[y][x].x = w->x_bias + w->nods[y][x].x * w->zoom;
+			w->nods[y][x].y = w->y_bias + w->nods[y][x].y * w->zoom;
 		}
 	}
 }
 
+void	ft_move_wire(t_wire *w)
+{
+	int y;
+	int x;
+
+	y = -1;
+	while (++y < w->y_range)
+	{
+		x = -1;
+		while (++x < w->x_range)
+		{
+			w->nods[y][x].x += w->x_bias;
+			w->nods[y][x].y += w->y_bias;
+		}
+	}
+}
+
+void	ft_zoom_wire(t_wire *w)
+{
+	int y;
+	int x;
+
+	y = -1;
+	while (++y < w->y_range)
+	{
+		x = -1;
+		while (++x < w->x_range)
+		{
+			w->nods[y][x].x = w->nods[y][x].x * w->zoom;
+			w->nods[y][x].y = w->nods[y][x].y * w->zoom;
+			w->nods[y][x].z = w->nods[y][x].z * w->zoom;
+		}
+	}
+}
 // void	ft_move_wire(t_wire *w, int y_m, int x_m)
 // {
 // 	int y;
@@ -79,7 +113,7 @@ void	ft_rotate_wire(t_wire *w2, t_iso *iso)
 {
 	int y;
 	int x;
-	int	pre;
+	double	pre;
 
 	y = -1;
 	while (++y < w2->y_range)
@@ -134,23 +168,24 @@ void	ft_perspective_wire(t_wire *w1)
 {
 	int y;
 	int x;
+	int max;
 	double dist;
-	// int y_pre;
-	// int x_pre;
 
-	dist = -600;
+	max = w1->x_range > w1->y_range ? w1->x_range : w1->y_range;
+	dist = max > 800 ? -max * 1.5 : -600.0;
+	dist *= w1->zoom;
 	y = -1;
 	while (++y < w1->y_range)
 	{
 		x = -1;
 		while (++x < w1->x_range)
 		{
-			// x_pre = w1->nods[y][x].x;
-			// y_pre = w1->nods[y][x].y;
 			if(w1->nods[y][x].z != dist)
 			{
-				w1->nods[y][x].x = w1->nods[y][x].x * dist / (w1->nods[y][x].z + dist);
-				w1->nods[y][x].y = w1->nods[y][x].y * dist / (w1->nods[y][x].z + dist);
+				// w1->nods[y][x].x = w1->nods[y][x].x * dist / (w1->nods[y][x].z + dist);
+				// w1->nods[y][x].y = w1->nods[y][x].y * dist / (w1->nods[y][x].z + dist);
+				w1->nods[y][x].x = w1->nods[y][x].x  / (1 + w1->nods[y][x].z / dist);
+				w1->nods[y][x].y = w1->nods[y][x].y / (1 + w1->nods[y][x].z / dist);
 			}
 		}
 	}

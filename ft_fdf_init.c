@@ -8,7 +8,7 @@ void	ft_fdf_init(t_fdf *f)
 	f->img_high = 1000;
 	f->wire_mod = 1;
 	ft_fit_wire(f, &f->w_orig);
-	f->w_orig.z_range = ft_get_z_range(&f->w_orig);
+	ft_get_z_range(&f->w_orig);
 	f->w_orig.x_bias = f->win_width / 2;
 	f->w_orig.y_bias = f->win_high / 2;
 	f->w_orig.angle.x = M_PI_2 * 0.0;
@@ -44,7 +44,7 @@ void	ft_copy_params(t_wire *w1, t_wire *w2)
 	w2->color_mod = w1->color_mod;
 }
 
-int ft_wires_malloc(t_fdf *f)
+int		ft_wires_malloc(t_fdf *f)
 {
 	if(!(f->w_up.nods = (t_nod**)ft_double_malloc(sizeof(t_nod), f->w_orig.y_range, f->w_orig.x_range)))
 		return (0);
@@ -63,27 +63,25 @@ int ft_wires_malloc(t_fdf *f)
 
 void	ft_fit_wire(t_fdf *f, t_wire *w)
 {
-	int del;
+	double del;
 	int y;
 	int x;
 	int	dz_mult;
 	int dz_div;
 
 	del = w->x_range > w->y_range ? w->x_range : w->y_range;
-//	ft_printf("w->x_range = %d, w->y_range = %d,  del = %d\n", w->x_range,w->y_range, del);
 	w->dx = del < (f->img_width / 2) ? f->img_width / 2 / del : 1;
 	w->dy = w->dx;
  	dz_mult = w->z_range < f->img_high / 5 ? (f->img_high / 5 )/ w->z_range : 1;
 	dz_div = w->z_range > f->img_high ? 2 * w->z_range / f->img_high: 1;
-//	ft_printf("w->dx = %d, w->dy = %d, dz_mult = %d, dz_div = %d\n", w->dx, w->dy, dz_mult, dz_div);
 	y = -1;
 	while (++y < w->y_range)
 	{
 		x = -1;
 		while (++x < w->x_range)
 		{
-			w->nods[y][x].x = w->nods[y][x].x * w->dx - w->dx * w->x_range / 2;
-			w->nods[y][x].y = w->nods[y][x].y * w->dy - w->dy * w->y_range / 2;
+			w->nods[y][x].x = w->nods[y][x].x * w->dx - w->dx * (w->x_range - 1) / 2;
+			w->nods[y][x].y = w->nods[y][x].y * w->dy - w->dy * (w->y_range - 1) / 2;
 			w->nods[y][x].z = (w->nods[y][x].z * dz_mult) / dz_div;
 		}
 	}
