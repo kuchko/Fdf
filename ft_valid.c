@@ -1,6 +1,6 @@
 #include "fdf.h"
 
-int	ft_get_x_range(t_list *lst)
+int			ft_get_x_range(t_list *lst)
 {
 	char	**c;
 	int		i;
@@ -8,16 +8,16 @@ int	ft_get_x_range(t_list *lst)
 	i = 0;
 	if ((c = ft_strsplit(lst->content, ' ')) == NULL)
 		return (0);
-	while(c[i])
+	while (c[i])
 		i++;
 	ft_doublefree(c);
 	return (i);
 }
 
-int		ft_get_z_range(t_wire *w)
+int			ft_get_z_range(t_wire *w)
 {
-	int y;
-	int x;
+	int		y;
+	int		x;
 
 	y = -1;
 	w->z_min = 0;
@@ -60,17 +60,18 @@ static int	ft_set_valid_nod(int j, int i, t_wire *w, char *c)
 
 static int	ft_wire_write(t_list *lst, t_wire *w)
 {
-	char **c;
-	int i;
-	int j;
+	char	**c;
+	int		i;
+	int		j;
 
 	j = -1;
 	while (lst && (++j + 1))
 	{
-		if (ft_get_x_range(lst) != w->x_range || (c = ft_strsplit(lst->content, ' ')) == NULL)
+		if (ft_get_x_range(lst) != w->x_range ||
+					(c = ft_strsplit(lst->content, ' ')) == NULL)
 			return (0);
 		i = -1;
-		while(c[++i])
+		while (c[++i])
 		{
 			w->nods[j][i].y = j;
 			w->nods[j][i].x = i;
@@ -86,15 +87,14 @@ static int	ft_wire_write(t_list *lst, t_wire *w)
 	return (1);
 }
 
-
-
-int	ft_make_valid_wire(t_list *lst, t_wire *w)
+int			ft_make_valid_wire(t_list *lst, t_wire *w)
 {
 	if ((w->x_range = ft_get_x_range(lst)) == 0)
 		return (0);
 	if (w->x_range > 10000)
 		ft_error("map is too big\n");
-	if (!(w->nods = (t_nod**)ft_double_malloc(sizeof(t_nod), w->y_range, w->x_range)))
+	if (!(w->nods = (t_nod**)ft_double_malloc(sizeof(t_nod),
+										w->y_range, w->x_range)))
 		ft_error("double_malloc error\n");
 	if (!(ft_wire_write(lst, w)))
 		return (0);

@@ -2,8 +2,8 @@
 
 static int	ft_valid_symbols(t_list *lst, int y_range)
 {
-	int		i;
-	int		j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (lst)
@@ -11,22 +11,21 @@ static int	ft_valid_symbols(t_list *lst, int y_range)
 		j = 0;
 		while (((char*)lst->content)[j])
 			if (ft_strchr("-+,0xX123456789ABCDEFabcdef ",
-								 ((char*)lst->content)[j++]) == NULL)
+								((char*)lst->content)[j++]) == NULL)
 				return (0);
 		lst = lst->next;
 		i++;
 	}
 	if (i == y_range)
 		return (1);
-	return(0);
+	return (0);
 }
-
 
 static int	ft_read_to_list(t_list **start, int fd)
 {
 	t_list	*lst;
 	t_list	*tmp;
-	char 	*l;
+	char	*l;
 	int		i;
 
 	i = 0;
@@ -51,7 +50,7 @@ static int	ft_read_to_list(t_list **start, int fd)
 	return (i);
 }
 
-void	ft_read(t_wire *wire, t_list **start, int argc, char **argv)
+void		ft_read(t_wire *wire, t_list **start, int argc, char **argv)
 {
 	int		fd;
 
@@ -69,12 +68,8 @@ void	ft_read(t_wire *wire, t_list **start, int argc, char **argv)
 	close(fd);
 	if (wire->y_range > 10000)
 		ft_error("map is too big\n");
-	if(ft_valid_symbols(*start, wire->y_range) == 0)
+	if (ft_valid_symbols(*start, wire->y_range) == 0)
 		ft_error("invalid symbols in file\n");
 	if (!ft_make_valid_wire(*start, wire))
 		ft_error("map error. coordinates might be out of range.\n");
 }
-
-
-
-

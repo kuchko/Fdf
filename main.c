@@ -1,12 +1,9 @@
-// gcc -I minilibx testing.c -L minilibx -lmlx -framework OpenGL -framework AppKit
-//man /Users/okuchko/Desktop/fdf/minilibx/man/man3/mlx.1
 #include "fdf.h"
 
-int main(int argc, char **argv)
+int		main(int argc, char **argv)
 {
 	t_list	*start;
 	t_fdf	f;
-
 
 	ft_printf("Get Ready 3! 2! 1!...\n");
 	ft_read(&f.w_orig, &start, argc, argv);
@@ -14,12 +11,12 @@ int main(int argc, char **argv)
 	ft_printf("Enjoy!!!\n");
 	ft_draw(&f);
 	system("leaks fdf > leaks");
-	return(0);
+	return (0);
 }
 
 void	ft_show_list(t_list *lst)
 {
-	while(lst)
+	while (lst)
 	{
 		ft_printf("%s\n", lst->content);
 		lst = lst->next;
@@ -52,4 +49,3 @@ void	ft_show_wire_coordinates(t_wire *w)
 		ft_printf("\n\n");
 	}
 }
-

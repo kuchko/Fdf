@@ -46,13 +46,16 @@ void	ft_copy_params(t_wire *w1, t_wire *w2)
 
 int		ft_wires_malloc(t_fdf *f)
 {
-	if(!(f->w_up.nods = (t_nod**)ft_double_malloc(sizeof(t_nod), f->w_orig.y_range, f->w_orig.x_range)))
+	if (!(f->w_up.nods = (t_nod**)ft_double_malloc(sizeof(t_nod),
+			f->w_orig.y_range, f->w_orig.x_range)))
 		return (0);
-	if(!(f->w_iso.nods = (t_nod**)ft_double_malloc(sizeof(t_nod), f->w_orig.y_range, f->w_orig.x_range)))
+	if (!(f->w_iso.nods = (t_nod**)ft_double_malloc(sizeof(t_nod),
+			f->w_orig.y_range, f->w_orig.x_range)))
 		return (0);
-	if(!(f->w_parral.nods = (t_nod**)ft_double_malloc(sizeof(t_nod), f->w_orig.y_range, f->w_orig.x_range)))
+	if (!(f->w_parral.nods = (t_nod**)ft_double_malloc(sizeof(t_nod),
+			f->w_orig.y_range, f->w_orig.x_range)))
 		return (0);
-	if (!(f->w = (t_wire**) malloc (sizeof(t_wire*) * 4)))
+	if (!(f->w = (t_wire**)malloc(sizeof(t_wire*) * 4)))
 		return (0);
 	f->w[0] = &f->w_orig;
 	f->w[1] = &f->w_up;
@@ -63,26 +66,28 @@ int		ft_wires_malloc(t_fdf *f)
 
 void	ft_fit_wire(t_fdf *f, t_wire *w)
 {
-	double del;
-	int y;
-	int x;
-	int	dz_mult;
-	int dz_div;
+	double	del;
+	int		y;
+	int		x;
+	int		dz_mul;
+	int		dz_div;
 
 	del = w->x_range > w->y_range ? w->x_range : w->y_range;
 	w->dx = del < (f->img_width / 2) ? f->img_width / 2 / del : 1;
 	w->dy = w->dx;
- 	dz_mult = w->z_range < f->img_high / 5 ? (f->img_high / 5 )/ w->z_range : 1;
-	dz_div = w->z_range > f->img_high ? 2 * w->z_range / f->img_high: 1;
+	dz_mul = w->z_range < f->img_high / 5 ? (f->img_high / 5) / w->z_range : 1;
+	dz_div = w->z_range > f->img_high ? 2 * w->z_range / f->img_high : 1;
 	y = -1;
 	while (++y < w->y_range)
 	{
 		x = -1;
 		while (++x < w->x_range)
 		{
-			w->nods[y][x].x = w->nods[y][x].x * w->dx - w->dx * (w->x_range - 1) / 2;
-			w->nods[y][x].y = w->nods[y][x].y * w->dy - w->dy * (w->y_range - 1) / 2;
-			w->nods[y][x].z = (w->nods[y][x].z * dz_mult) / dz_div;
+			w->nods[y][x].x = w->nods[y][x].x * w->dx - w->dx *
+										(w->x_range - 1) / 2;
+			w->nods[y][x].y = w->nods[y][x].y * w->dy - w->dy *
+										(w->y_range - 1) / 2;
+			w->nods[y][x].z = (w->nods[y][x].z * dz_mul) / dz_div;
 		}
 	}
 }
@@ -105,6 +110,3 @@ void	ft_copy_wire(t_wire *w1, t_wire *w2)
 		}
 	}
 }
-
-
-

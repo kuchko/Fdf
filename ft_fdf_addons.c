@@ -1,6 +1,6 @@
 #include "fdf.h"
 
-int	ft_atoi_base_positiv(const char *s, int base)
+int			ft_atoi_base_positiv(const char *s, int base)
 {
 	int		res;
 	size_t	i;
@@ -11,7 +11,8 @@ int	ft_atoi_base_positiv(const char *s, int base)
 	i = 0;
 	while (i < ft_strlen(s))
 	{
-		if (s[i] < '0' || s[i] > 'f' || (s[i] > '9' && s[i] < 'A') || (s[i] > 'F' && s[i] < 'a'))
+		if (s[i] < '0' || s[i] > 'f' || (s[i] > '9' && s[i] < 'A') ||
+										(s[i] > 'F' && s[i] < 'a'))
 			return (-1);
 		if (s[i] >= '0' && s[i] <= '9')
 			res = res * base + s[i] - '0';
@@ -24,7 +25,7 @@ int	ft_atoi_base_positiv(const char *s, int base)
 	return (res);
 }
 
-int		ft_fdf_atoi(char *str, int *r)
+int			ft_fdf_atoi(char *str, int *r)
 {
 	int				i;
 	unsigned long	res;
@@ -37,7 +38,7 @@ int		ft_fdf_atoi(char *str, int *r)
 		if (str[i++] == '-')
 			sign = -1;
 	if (str[i] < '0' || str[i] > '9')
-		return(0);
+		return (0);
 	while ((str[i] >= '0') && (str[i] <= '9'))
 	{
 		if (i > 10)
@@ -50,15 +51,15 @@ int		ft_fdf_atoi(char *str, int *r)
 	return (i);
 }
 
-void	**ft_double_malloc(size_t size, size_t y, size_t x)
+void		**ft_double_malloc(size_t size, size_t y, size_t x)
 {
 	void	**ukz;
-	size_t		i;
+	size_t	i;
 
 	if ((ukz = malloc(sizeof(void*) * (y))) == NULL)
 		return (NULL);
 	i = 0;
-	while(i < y)
+	while (i < y)
 	{
 		if ((ukz[i] = malloc(size * (x))) == NULL)
 			return (NULL);
@@ -67,7 +68,7 @@ void	**ft_double_malloc(size_t size, size_t y, size_t x)
 	return (ukz);
 }
 
-void	ft_error(char *s)
+void		ft_error(char *s)
 {
 	ft_printf("%s", s);
 	system("leaks fdf > leaks");

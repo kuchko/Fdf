@@ -17,17 +17,17 @@ OBJ_DIR = ./obj/
 CC = gcc
 CC_FLAGS = -Wall -Wextra -Werror
 
-SOURCES = main.c read.c valid.c ft_fdf_addons.c ft_draw.c ft_fdf_init.c \
-		ft_w_modify.c ft_puts.c ft_keys.c
+SOURCES = main.c ft_read.c ft_valid.c ft_fdf_addons.c ft_draw.c ft_fdf_init.c \
+		ft_modify_view.c ft_modify_wire.c ft_puts.c ft_keys.c
 
 OBJECTS = $(addprefix $(OBJ_DIR), $(SOURCES:.c=.o))
 
 # minilibx
 
-LIBX_DIR = minilibx/
-LIBX_INC_FLAGS = -L $(LIBX_DIR) -lmlx
-LIBX_HEADER_FLAGS =	-I $(LIBX_DIR)
-LIBX_FRAMEWORKS = -framework OpenGL -framework AppKit
+# LIBX_DIR = minilibx/
+# LIBX_INC_FLAGS = -L $(LIBX_DIR) -lmlx
+# LIBX_HEADER_FLAGS =	-I $(LIBX_DIR)
+LIBX_FRAMEWORKS = -lmlx -framework OpenGL -framework AppKit
 
 # libft
 
@@ -41,7 +41,8 @@ HEADER_FLAGS =	-I $(INCLUDES) -I fdf.h
 all: $(NAME)
 
 $(NAME): $(INC) $(OBJECTS)
-	$(CC) $(CC_FLAGS) $(OBJECTS) $(INC_FLAGS) $(LIBX_INC_FLAGS) $(LIBX_HEADER_FLAGS) $(LIBX_FRAMEWORKS) -o $(NAME)
+	# $(CC) $(CC_FLAGS) $(OBJECTS) $(INC_FLAGS) $(LIBX_INC_FLAGS) $(LIBX_HEADER_FLAGS) $(LIBX_FRAMEWORKS) -o $(NAME)
+	$(CC) $(CC_FLAGS) $(OBJECTS) $(INC_FLAGS) $(LIBX_FRAMEWORKS) -o $(NAME)
 $(INC):
 	make -C $(INC_DIR)
 
@@ -59,6 +60,7 @@ clean:
 
 fclean: clean
 	rm -rf $(NAME)
+	rm -rf leaks
 	make fclean -C $(INC_DIR)
 
 re:	fclean all
